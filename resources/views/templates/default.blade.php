@@ -9,9 +9,9 @@
 </head>
 
 <body>
-    <main id="app">
+    <div id="app">
         @yield('content')
-    </main>
+    </div>
 </body>
 
 </html>

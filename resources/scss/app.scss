@@ -1,3 +1,193 @@
-.red {
-    color: red;
+$breakpoint: 900px;
+$bgColor: #efefef;
+$barColor: #dedede;
+$containerSpace: 150px;
+$containerMobileSpace: 30px;
+$paddingCard: 25px;
+$paddingMobileCard: 10px;
+
+* {
+    font-family: sans-serif;
+    box-sizing: border-box;
+}
+
+.center-y {
+    display: flex;
+    align-items: center;
+}
+
+.flex-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+    transition: 0.5s;
+
+    &:hover {
+        transform: scale(1.03);
+    }
+}
+
+body {
+    margin: 0;
+    background-color: $bgColor;
+}
+
+button {
+    background-color: $barColor;
+    padding: 10px 30px;
+    border-radius: 10px;
+    border: unset;
+    transition: 0.5s;
+    cursor: pointer;
+    &:hover {
+        filter: brightness(0.9);
+    }
+}
+
+#app {
+    display: grid;
+    grid-template-rows: 60px 1fr 100px;
+    grid-template-areas:
+        "header"
+        "main"
+        "footer";
+
+    @media (width < $breakpoint) {
+        grid-template-rows: auto 1fr 100px;
+    }
+
+    header {
+        grid-area: header;
+        nav {
+            height: 100%;
+            background-color: $barColor;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 50px;
+            grid-template-areas: "logo menu filter";
+            padding: 5px 100px;
+
+            @media (width < $breakpoint) {
+                gap: 10px;
+                padding: 5px 20px;
+                grid-template-columns: 1fr;
+                grid-template-rows: repeat(3, 1fr);
+                grid-template-areas:
+                    "logo"
+                    "menu"
+                    "filter";
+            }
+
+            .logo {
+                text-transform: uppercase;
+                grid-area: logo;
+                @extend .center-y;
+                font-size: 20px;
+                font-weight: bolder;
+            }
+
+            .menu {
+                text-transform: uppercase;
+                grid-area: menu;
+                gap: 20px;
+                @extend .center-y;
+                @extend .flex-row;
+                justify-content: flex-end;
+            }
+
+            .filter {
+                text-transform: uppercase;
+                grid-area: filter;
+                @extend .center-y;
+
+                .input-filter {
+                    width: 100%;
+                    position: relative;
+                    input {
+                        padding: 10px 40px 10px 15px;
+                        border-radius: 20px;
+                        border: none;
+                        width: 100%;
+                    }
+
+                    &:after {
+                        position: absolute;
+                        content: "";
+                        display: block;
+                        width: 40px;
+                        height: 100%;
+                        right: 0;
+                        top: 0;
+                        background-image: url("../../public/assets/images/search.svg");
+                        background-repeat: no-repeat;
+                        background-position: center;
+                        background-size: 70%;
+                    }
+                }
+
+                @media (width < $breakpoint) {
+                    margin-bottom: 20px;
+                }
+            }
+        }
+    }
+
+    main {
+        grid-area: main;
+        padding: 20px $containerSpace 100px;
+        @media (width < $breakpoint) {
+            padding: 20px $containerMobileSpace;
+        }
+
+        .card-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+
+            @media (width < $breakpoint) {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .card {
+                @extend .flex-col;
+                gap: 10px;
+                background-color: white;
+                border: 1px solid $barColor;
+                border-radius: 10px;
+                padding: $paddingCard;
+                @media (width < $breakpoint) {
+                    padding: $paddingMobileCard;
+                }
+
+                b {
+                    margin-bottom: 20px;
+                }
+
+                span {
+                    margin-bottom: 50px;
+                }
+
+                .card-footer {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+            }
+        }
+    }
+
+    footer {
+        background-color: $barColor;
+        grid-area: footer;
+    }
 }
