@@ -16,6 +16,11 @@ $paddingMobileCard: 10px;
     align-items: center;
 }
 
+.center-x {
+    display: flex;
+    justify-content: center;
+}
+
 .flex-col {
     display: flex;
     flex-direction: column;
@@ -189,5 +194,7 @@ button {
     footer {
         background-color: $barColor;
         grid-area: footer;
+        @extend .center-x;
+        @extend .center-y;
     }
 }

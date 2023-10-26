@@ -34,5 +34,5 @@
             @endfor
         </section>
     </main>
-    <footer>FOOTER</footer>
+    <footer>Desenvolvido por Vinicius Bassalobre</footer>
 @endsection
