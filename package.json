@@ -1,0 +1,23 @@
+{
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build"
+    },
+    "devDependencies": {
+        "axios": "^1.1.2",
+        "laravel-vite-plugin": "^0.8.0",
+        "vite": "^4.0.0",
+        "vite-transform-globby-import": "^1.0.0-rc.7"
+    },
+    "dependencies": {
+        "@vitejs/plugin-vue": "^4.4.0",
+        "@vitejs/plugin-vue2": "^2.2.0",
+        "fs": "^0.0.1-security",
+        "path": "^0.12.7",
+        "require": "^2.4.20",
+        "sass": "^1.69.5",
+        "vue": "^2"
+    }
+}
