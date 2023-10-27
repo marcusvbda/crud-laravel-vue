@@ -2,11 +2,13 @@
 
 namespace Tests\Feature;
 
+use App\Models\NewModel;
+use Illuminate\Http\Response;
 use Tests\TestCase;
 
 class NewsCrudTest extends TestCase
 {
-    public function testCreateNews()
+    public function testCreateNews(): void
     {
         $title =  $this->getRandomText(50, 100);
         $description =  $this->getRandomText(100, 150);
@@ -18,71 +20,66 @@ class NewsCrudTest extends TestCase
             'content' => $content->text
         ];
 
-        $response = $this->post('/news', $newsData);
+        $response = $this->post(route("news.store"), $newsData);
         $this->assertDatabaseHas('news', $newsData);
-
-        $response->assertRedirect('/news');
     }
 
-    // public function testReadNews()
-    // {
-    //     // Crie uma notícia de exemplo no banco de dados
-    //     $news = factory(News::class)->create();
+    public function testReadNews()
+    {
+        $entity = NewModel::factory()->create();
+        $response = $this->get("/news/{$entity->id}");
+        $response->assertStatus(Response::HTTP_OK)
+            ->assertJson($entity->toArray());
+    }
 
-    //     // Faça uma solicitação GET para a rota de visualização da notícia
-    //     $response = $this->get("/news/{$news->id}");
+    public function testUpdateNews()
+    {
+        $entity = NewModel::factory()->create();
 
-    //     // Verifique se a resposta contém o título e o conteúdo da notícia
-    //     $response->assertSee($news->title)
-    //         ->assertSee($news->content);
-    // }
+        $newData = [
+            'title' => 'Novo Título',
+            'content' => 'Novo Conteúdo',
+            'description' => 'Nova Descrição',
+        ];
 
-    // public function testUpdateNews()
-    // {
-    //     // Crie uma notícia de exemplo no banco de dados
-    //     $news = factory(News::class)->create();
+        $response = $this->put("/news/{$entity->id}", $newData);
+        $response->assertStatus(Response::HTTP_OK);
+        $this->assertDatabaseHas('news', $newData);
+    }
 
-    //     // Simule um usuário autenticado
-    //     $user = factory(User::class)->create();
-    //     $this->actingAs($user);
+    public function testNewsListingWithPaginationAndFilters()
+    {
+        $entities = NewModel::factory()->count(3)->create();
+        $response = $this->get('/news?page=1&perPage=2');
+        $response->assertStatus(Response::HTTP_OK);
 
-    //     // Novos dados para atualizar a notícia
-    //     $newData = [
-    //         'title' => 'Novo Título',
-    //         'content' => 'Novo Conteúdo',
-    //     ];
+        $newsList = $response->json();
+        $ids = array_map(fn ($item) => $item['id'], data_get($newsList, 'data', []));
+        $this->assertTrue(in_array($entities[0]->id, $ids));
+        $this->assertTrue(in_array($entities[1]->id, $ids));
+        $this->assertFalse(in_array($entities[2]->id, $ids));
 
-    //     // Faça uma solicitação PUT para a rota de atualização
-    //     $response = $this->put("/news/{$news->id}", $newData);
+        $response = $this->get('/news?page=2&perPage=2');
+        $response->assertStatus(Response::HTTP_OK);
+        $newsList = $response->json();
+        $ids = array_map(fn ($item) => $item['id'], data_get($newsList, 'data', []));
+        $this->assertFalse(in_array($entities[0]->id, $ids));
+        $this->assertFalse(in_array($entities[1]->id, $ids));
+        $this->assertTrue(in_array($entities[2]->id, $ids));
 
-    //     // Verifique se os dados da notícia foram atualizados no banco de dados
-    //     $this->assertDatabaseHas('news', $newData);
+        $response = $this->get("/news?filter={$entities[0]->title}");
+        $response->assertStatus(Response::HTTP_OK);
+        $newsList = $response->json();
+        $ids = array_map(fn ($item) => $item['id'], data_get($newsList, 'data', []));
+        $this->assertTrue(in_array($entities[0]->id, $ids));
+        $this->assertFalse(in_array($entities[1]->id, $ids));
+    }
 
-    //     // Verifique se a resposta redireciona para a página correta após a atualização
-    //     $response->assertRedirect("/news/{$news->id}");
-    // }
-
-    // public function testNewsListingWithPaginationAndFilters()
-    // {
-    //     // Crie algumas notícias no banco de dados
-    //     $news1 = factory(News::class)->create(['title' => 'Notícia 1', 'published' => true]);
-    //     $news2 = factory(News::class)->create(['title' => 'Notícia 2', 'published' => true]);
-    //     $news3 = factory(News::class)->create(['title' => 'Notícia 3', 'published' => false]);
-
-    //     // Faça uma solicitação GET para a rota de listagem com filtros e paginação
-    //     $response = $this->get('/news', ['published' => true, 'page' => 2, 'perPage' => 1]);
-
-    //     // Verifique se a resposta contém a notícia publicada, mas não a não publicada
-    //     $response->assertSee($news1->title)
-    //         ->assertSee($news2->title)
-    //         ->assertDontSee($news3->title);
-
-    //     // Verifique se a resposta contém apenas 1 notícia por página (devido à paginação)
-    //     $response->assertDontSee($news1->title)
-    //         ->assertSee($news2->title);
-
-    //     // Verifique se a resposta contém links para a próxima página e a página anterior
-    //     $response->assertSee('Página 1')
-    //         ->assertSee('Página 3'); // Supondo que a segunda página tenha um link para a terceira página
-    // }
+    public function testSoftDeleteNews()
+    {
+        $entity = NewModel::factory()->create();
+        $response = $this->delete("/news/{$entity->id}");
+        $response->assertStatus(Response::HTTP_NO_CONTENT);
+        $this->assertSoftDeleted('news', ['id' => $entity->id]);
+    }
 }

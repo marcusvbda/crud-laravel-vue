@@ -10,7 +10,7 @@ class NewModelFactory extends Factory
     {
         return [
             'title' => $this->faker->realText(rand(10, 20)),
-            'description' => $this->faker->realText(rand(100, 200)),
+            'description' => $this->faker->realText(rand(100, 255)),
             'content' => $this->faker->realText(rand(300, 500))
         ];
     }

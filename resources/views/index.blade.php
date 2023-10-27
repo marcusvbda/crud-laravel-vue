@@ -2,7 +2,10 @@
 @section('content')
     <header-nav></header-nav>
     <main>
-        <card-list />
+        <div class="pagination">
+            {{ $list->links() }}
+        </div>
+        <card-list :list='@json($list)'></card-list>
     </main>
     <footer>Desenvolvido por Vinicius Bassalobre</footer>
 @endsection

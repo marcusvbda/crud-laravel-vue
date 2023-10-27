@@ -1,3 +1,5 @@
+@import "./variables";
+
 * {
     font-family: sans-serif;
     box-sizing: border-box;
@@ -47,5 +49,33 @@ button {
     cursor: pointer;
     &:hover {
         filter: brightness(0.9);
+    }
+}
+
+.pagination {
+    padding: 10px 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    @media (max-width: $breakpoint) {
+        justify-content: center;
+    }
+    span.relative.z-0.inline-flex.shadow-sm.rounded-md {
+        display: none;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    nav div {
+        display: flex;
+        gap: 20px;
+        * {
+            display: none;
+        }
+        a {
+            display: block;
+        }
     }
 }

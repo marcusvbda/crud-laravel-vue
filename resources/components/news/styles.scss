@@ -6,7 +6,7 @@
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
 
-    @media (width < $breakpoint) {
+    @media (max-width: $breakpoint) {
         grid-template-columns: 1fr;
         gap: 10px;
     }
@@ -18,7 +18,7 @@
         border: 1px solid $barColor;
         border-radius: 10px;
         padding: $paddingCard;
-        @media (width < $breakpoint) {
+        @media (max-width: $breakpoint) {
             padding: $paddingMobileCard;
         }
 
@@ -31,6 +31,7 @@
         }
 
         .card-footer {
+            margin-top: auto;
             display: flex;
             align-items: center;
             justify-content: center;

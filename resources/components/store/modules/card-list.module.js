@@ -1,18 +1,17 @@
 const cardListModule = {
     namespaced: true,
     state: () => ({
-        news: [1, 2, 3, 4, 5, 6, 7, 8],
+        newsList: {},
     }),
     getters: {
-        news(state) {
-            return state.news;
+        newsList(state) {
+            return state.newsList;
         },
     },
     mutations: {
-        //
-    },
-    actions: {
-        //
+        setNewsList(state, newsList) {
+            state.newsList = newsList;
+        },
     },
 };
 

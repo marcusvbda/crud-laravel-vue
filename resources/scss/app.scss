@@ -9,14 +9,14 @@
         "main"
         "footer";
 
-    @media (width < $breakpoint) {
+    @media (max-width: $breakpoint) {
         grid-template-rows: auto 1fr 100px;
     }
 
     main {
         grid-area: main;
         padding: 20px $containerSpace 100px;
-        @media (width < $breakpoint) {
+        @media (max-width: $breakpoint) {
             padding: 20px $containerMobileSpace;
         }
     }

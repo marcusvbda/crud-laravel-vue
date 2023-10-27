@@ -4,7 +4,5 @@ const files = import.meta.globEager("./**/*.vue");
 for (const path in files) {
     const componentModule = files[path];
     const componentName = path.match(/\/([^/]+)\.vue$/)[1];
-    if (!componentName.startsWith("-")) {
-        Vue.component(componentName, componentModule.default);
-    }
+    Vue.component(componentName, componentModule.default);
 }
