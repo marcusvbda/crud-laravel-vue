@@ -8,7 +8,7 @@
             </section>
             <section class="filter">
                 <div class="input-filter">
-                    <input />
+                    <input v-model="filterValue" />
                 </div>
             </section>
         </nav>
@@ -17,6 +17,23 @@
 <script>
 import "./styles.scss";
 export default {
-    //   
+    data() {
+        return {
+            filterValue: (new URL(window.location.href)).searchParams.get('filter') || '',
+            timeout: null
+        }
+    },
+    watch: {
+        filterValue(val) {
+            clearInterval(this.timeout);
+            this.timeout = setTimeout(() => {
+                const url = new URL(window.location.href);
+                url.searchParams.set('filter', val);
+                url.searchParams.set('page', 1);
+                window.location.href = url.toString();
+            }, 1000);
+        }
+
+    }
 }
 </script>

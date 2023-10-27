@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\{ListNewsRequest, UpsertNewsRequest};
 use App\Models\NewModel;
 use Illuminate\Http\{JsonResponse, Response};
+use PhpParser\Node\Expr\Cast\Object_;
 
 class NewsController extends Controller
 {
@@ -15,7 +16,7 @@ class NewsController extends Controller
         // 
     }
 
-    public function list(ListNewsRequest $request): JsonResponse
+    public function list(ListNewsRequest $request): Object
     {
         $page = $request->page ?? 1;
         $perPage =  $request->perPage ?? $this->defaultPerPage;
@@ -23,14 +24,12 @@ class NewsController extends Controller
 
         $news = $this->newsRepository
             ->when($filter, function ($query) use ($filter) {
-                return $query->where('title', 'like', "%{$filter}%")
-                    ->orWhere('description', 'like', "%{$filter}%")
-                    ->orWhere('content', 'like', "%{$filter}%");
+                return $query->where('title', 'like', "%{$filter}%");
             })
             ->paginate($perPage, "*", "page", $page)
             ->withQueryString();
 
-        return response()->json($news, Response::HTTP_OK);
+        return $news;
     }
 
     public function store(UpsertNewsRequest $request): JsonResponse
