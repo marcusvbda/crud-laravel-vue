@@ -28,6 +28,7 @@ export default {
         filterValue(val) {
             clearInterval(this.timeout);
             this.timeout = setTimeout(() => {
+                this.setIsLoading(true);
                 const url = new URL(window.location.href);
                 url.searchParams.set('filter', val);
                 url.searchParams.set('page', 1);
@@ -36,7 +37,7 @@ export default {
         }
     },
     methods: {
-        ...mapMutations('news-list', ['setCrudVisible'])
+        ...mapMutations('news-list', ['setCrudVisible', "setIsLoading"])
     }
 }
 </script>
