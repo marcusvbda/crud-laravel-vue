@@ -1,3 +1,5 @@
+[see how the project workd on this video](https://vimeo.com/878646502/a55d8b29ad?share=copy)
+
 **Setting Up a Laravel Project with Vue.js in a Docker Environment**
 
 In this tutorial, we'll walk you through the process of setting up a Laravel project with Vue.js in a Docker environment. Dockerizing your project allows for easy deployment and consistency across different environments. We'll also cover the necessary steps to create a Docker network, configure your environment variables, and set up the database.
@@ -54,3 +56,4 @@ With these steps completed, your Laravel project with Vue.js is now up and runni
 Remember that this guide provides a basic setup. Depending on the complexity of your project, you may need to configure additional settings. Additionally, make sure to follow best practices for security and performance, especially in a production environment.
 
 Feel free to customize your `.env` file and other configuration files to suit your specific project requirements. Docker makes it easy to manage dependencies and scale your application as needed.
+
