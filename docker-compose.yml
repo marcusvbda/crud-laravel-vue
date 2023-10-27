@@ -21,6 +21,7 @@ services:
 
     app:
         container_name: laravel_app
+        restart: unless-stopped
         build:
             context: .
             dockerfile: Dockerfile
@@ -39,7 +40,7 @@ services:
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
         container_name: laravel_phpmyadmin
-        restart: always
+        restart: unless-stopped
         ports:
             - "8081:80"
         environment:
