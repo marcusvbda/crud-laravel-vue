@@ -13,5 +13,6 @@ chmod -R ugo+rw /.composer
 cd /var/www/html
 
 composer install
-php artisan migrate --seed
+php artisan migrate 
+# php artisan db:seed 
 php artisan serve --host=0.0.0.0 --port=8080
