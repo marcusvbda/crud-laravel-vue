@@ -78,3 +78,14 @@ header {
         }
     }
 }
+
+.loading-modal {
+    z-index: 5;
+    @extend .overlay;
+    @extend .center-y;
+    @extend .center-x;
+    .card {
+        @extend .card;
+        padding: 20px 100px;
+    }
+}

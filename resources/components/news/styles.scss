@@ -1,7 +1,7 @@
 @import "@/scss/variables";
 @import "@/scss/global";
 
-.card-list {
+.news-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
@@ -13,14 +13,7 @@
 
     .card {
         @extend .flex-col;
-        gap: 10px;
-        background-color: white;
-        border: 1px solid $barColor;
-        border-radius: 10px;
-        padding: $paddingCard;
-        @media (max-width: $breakpoint) {
-            padding: $paddingMobileCard;
-        }
+        @extend .card;
 
         b {
             margin-bottom: 20px;
@@ -35,6 +28,38 @@
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+    }
+}
+
+.crud-modal {
+    @extend .overlay;
+    padding: 20px 100px;
+    @media (max-width: $breakpoint) {
+        padding: 20px 30px;
+    }
+    @extend .center-y;
+    @extend .center-x;
+
+    .card {
+        @extend .card;
+        width: $breakpoint;
+
+        @media (max-width: $breakpoint) {
+            width: 90%;
+        }
+
+        form {
+            @extend .flex-col;
+            gap: 10px;
+            padding-bottom: 30px;
+            div {
+                @extend .flex-col;
+
+                label {
+                    margin-bottom: 5px;
+                }
+            }
         }
     }
 }

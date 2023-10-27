@@ -20,7 +20,7 @@ class NewsCrudTest extends TestCase
             'content' => $content->text
         ];
 
-        $response = $this->post(route("news.store"), $newsData);
+        $this->post(route("news.store"), $newsData);
         $this->assertDatabaseHas('news', $newsData);
     }
 
@@ -55,17 +55,17 @@ class NewsCrudTest extends TestCase
 
         $newsList = $response->json();
         $ids = array_map(fn ($item) => $item['id'], data_get($newsList, 'data', []));
-        $this->assertTrue(in_array($entities[0]->id, $ids));
+        $this->assertFalse(in_array($entities[0]->id, $ids));
         $this->assertTrue(in_array($entities[1]->id, $ids));
-        $this->assertFalse(in_array($entities[2]->id, $ids));
+        $this->assertTrue(in_array($entities[2]->id, $ids));
 
         $response = $this->get('/news?page=2&perPage=2');
         $response->assertStatus(Response::HTTP_OK);
         $newsList = $response->json();
         $ids = array_map(fn ($item) => $item['id'], data_get($newsList, 'data', []));
-        $this->assertFalse(in_array($entities[0]->id, $ids));
+        $this->assertTrue(in_array($entities[0]->id, $ids));
         $this->assertFalse(in_array($entities[1]->id, $ids));
-        $this->assertTrue(in_array($entities[2]->id, $ids));
+        $this->assertFalse(in_array($entities[2]->id, $ids));
 
         $response = $this->get("/news?filter={$entities[0]->title}");
         $response->assertStatus(Response::HTTP_OK);

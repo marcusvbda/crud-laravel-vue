@@ -26,6 +26,7 @@ class NewsController extends Controller
             ->when($filter, function ($query) use ($filter) {
                 return $query->where('title', 'like', "%{$filter}%");
             })
+            ->orderBy("id", "desc")
             ->paginate($perPage, "*", "page", $page)
             ->withQueryString();
 

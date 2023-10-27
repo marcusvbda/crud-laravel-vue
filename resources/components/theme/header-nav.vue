@@ -3,8 +3,8 @@
         <nav>
             <section class="logo">Logo</section>
             <section class="menu">
-                <a href="#">Cadastrar notícias</a>
-                <a href="#">Exibir notícias</a>
+                <a href="#" @click.prevent="setCrudVisible(true)">Cadastrar notícias</a>
+                <a href="/">Exibir notícias</a>
             </section>
             <section class="filter">
                 <div class="input-filter">
@@ -16,6 +16,7 @@
 </template>
 <script>
 import "./styles.scss";
+import { mapMutations } from "vuex";
 export default {
     data() {
         return {
@@ -33,7 +34,9 @@ export default {
                 window.location.href = url.toString();
             }, 1000);
         }
-
+    },
+    methods: {
+        ...mapMutations('news-list', ['setCrudVisible'])
     }
 }
 </script>

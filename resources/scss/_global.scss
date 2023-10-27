@@ -5,6 +5,11 @@
     box-sizing: border-box;
 }
 
+h5 {
+    font-size: 1.3rem;
+    margin: 0;
+}
+
 .center-y {
     display: flex;
     align-items: center;
@@ -77,5 +82,27 @@ button {
         a {
             display: block;
         }
+    }
+}
+
+.overlay {
+    position: fixed;
+    background-color: #0000003b;
+    inset: 0;
+    margin: 0;
+    z-index: 1;
+    display: flex;
+    overflow-y: auto;
+}
+
+.card {
+    @extend .flex-col;
+    gap: 10px;
+    background-color: white;
+    border: 1px solid $barColor;
+    border-radius: 10px;
+    padding: $paddingCard;
+    @media (max-width: $breakpoint) {
+        padding: $paddingMobileCard;
     }
 }
