@@ -1,7 +1,10 @@
 import Vue from "vue";
 
-const files = require.context("./", true, /(\/)(?!.*\/)(?!-.*$).*\.vue$/i);
-files.keys().each((key) => {
-    console.log(key);
-    Vue.component(key.split("/").pop().split(".")[0], files(key).default);
-});
+const files = import.meta.globEager("./**/*.vue");
+for (const path in files) {
+    const componentModule = files[path];
+    const componentName = path.match(/\/([^/]+)\.vue$/)[1];
+    if (!componentName.startsWith("-")) {
+        Vue.component(componentName, componentModule.default);
+    }
+}

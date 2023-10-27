@@ -1,0 +1,51 @@
+* {
+    font-family: sans-serif;
+    box-sizing: border-box;
+}
+
+.center-y {
+    display: flex;
+    align-items: center;
+}
+
+.center-x {
+    display: flex;
+    justify-content: center;
+}
+
+.flex-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+    transition: 0.5s;
+
+    &:hover {
+        transform: scale(1.03);
+    }
+}
+
+body {
+    margin: 0;
+    background-color: $bgColor;
+}
+
+button {
+    background-color: $barColor;
+    padding: 10px 30px;
+    border-radius: 10px;
+    border: unset;
+    transition: 0.5s;
+    cursor: pointer;
+    &:hover {
+        filter: brightness(0.9);
+    }
+}
