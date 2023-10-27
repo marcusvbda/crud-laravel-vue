@@ -11,7 +11,7 @@ header {
         grid-template-columns: repeat(3, 1fr);
         gap: 50px;
         grid-template-areas: "logo menu filter";
-        padding: 5px 100px;
+        padding: 10px 100px;
 
         @media (max-width: $breakpoint) {
             gap: 10px;

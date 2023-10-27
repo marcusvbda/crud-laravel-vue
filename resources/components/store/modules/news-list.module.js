@@ -37,20 +37,32 @@ const cardListModule = {
         },
     },
     actions: {
-        async createNews({ commit }, news) {
+        resetUrl() {
+            const url = new URL(window.location.href);
+            url.searchParams.set("page", 1);
+            url.searchParams.set("filter", "");
+            window.location.href = url.toString();
+        },
+        upsertNews({ dispatch, commit }, news) {
             commit("setIsLoading", true);
+
+            if (news?.id) {
+                return axios
+                    .put(`/news/${news.id}`, news)
+                    .finally(() => dispatch("resetUrl"));
+            }
 
             return axios
                 .post("/news", news)
-                .catch((error) => {
-                    reject(error);
-                })
-                .finally(() => {
-                    const url = new URL(window.location.href);
-                    url.searchParams.set("page", 1);
-                    url.searchParams.set("filter", "");
-                    window.location.href = url.toString();
-                });
+                .finally(() => dispatch("resetUrl"));
+        },
+
+        destroyNews({ dispatch, commit }, id) {
+            commit("setIsLoading", true);
+
+            return axios
+                .delete(`/news/${id}`)
+                .finally(() => dispatch("resetUrl"));
         },
     },
 };

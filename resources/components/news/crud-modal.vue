@@ -13,9 +13,12 @@
                 </div>
                 <div>
                     <label>Conteudo</label>
-                    <textarea rows="5" v-model="form.content" required />
+                    <textarea rows="8" v-model="form.content" required />
                 </div>
-                <button type="submit">Salvar</button>
+                <div class="card-footer">
+                    <button type="button" class="danger" @click="destroy" v-if="detailNews.id">Excluir</button>
+                    <button type="submit">Salvar</button>
+                </div>
             </form>
         </div>
     </section>
@@ -34,20 +37,55 @@ export default {
             }
         }
     },
+    watch: {
+        crudVisible(val) {
+            if (!val) {
+                return this.refresh()
+            }
+            if (this.detailNews?.id) {
+                this.form = {
+                    title: this.detailNews.title,
+                    description: this.detailNews.description,
+                    content: this.detailNews.content
+                }
+            }
+        }
+    },
     computed: {
-        ...mapGetters("news-list", ["crudVisible"]),
+        ...mapGetters("news-list", ["crudVisible", "detailNews"]),
         crudTitle() {
+            if (this.detailNews?.id) {
+                return "Editar notícia"
+            }
             return "Cadastro de notícias"
         }
     },
     methods: {
-        ...mapMutations("news-list", ["setCrudVisible", "setIsLoading"]),
-        ...mapActions("news-list", ["createNews"]),
+        ...mapMutations("news-list", ["setCrudVisible", "setDetailNews", "setIsLoading"]),
+        ...mapActions("news-list", ["upsertNews", "destroyNews"]),
+        refresh() {
+            this.form = {
+                title: "",
+                description: "",
+                content: ""
+            }
+            this.setDetailNews({});
+        },
         clickedOnModal() {
+            this.refresh();
             this.setCrudVisible(false);
         },
         submit() {
-            this.createNews(this.form)
+            const resp = confirm("Deseja realmente salvar esta notícia?")
+            if (resp) {
+                this.upsertNews({ ...this.form, id: this.detailNews.id })
+            }
+        },
+        destroy() {
+            const resp = confirm("Deseja realmente excluir esta notícia?")
+            if (resp) {
+                this.destroyNews(this.detailNews.id)
+            }
         }
     }
 }

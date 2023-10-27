@@ -10,6 +10,8 @@
 
 <body>
     <div id="app">
+        <loading-modal></loading-modal>
+        <crud-modal></crud-modal>
         @yield('content')
     </div>
 </body>

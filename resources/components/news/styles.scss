@@ -25,9 +25,12 @@
 
         .card-footer {
             margin-top: auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            @extend .flex-row;
+            @extend .center-x;
+            @extend .center-y;
+            button {
+                flex: 1;
+            }
         }
     }
 }
@@ -58,6 +61,22 @@
 
                 label {
                     margin-bottom: 5px;
+                }
+            }
+        }
+
+        .card-footer {
+            margin-top: auto;
+            @extend .flex-row;
+            @extend .center-x;
+            @extend .center-y;
+            gap: 10px;
+
+            button {
+                flex: 1;
+
+                &.danger {
+                    background-color: $dangerColor;
                 }
             }
         }
